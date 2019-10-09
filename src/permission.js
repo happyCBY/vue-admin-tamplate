@@ -4,6 +4,7 @@ import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
+// 设置title
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -11,35 +12,36 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
-  // start progress bar
+  // 进度条开始
   NProgress.start()
-
-  // set page title
+  // 设置title
   document.title = getPageTitle(to.meta.title)
 
-  // determine whether the user has logged in
+  // 从cookie中获取token值
   const hasToken = getToken()
 
   if (hasToken) {
     if (to.path === '/login') {
-      // if is logged in, redirect to the home page
+      // 如果token存在，则直接进入到后台
       next({ path: '/' })
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
+
       if (hasRoles) {
         next()
       } else {
+        // 这段代码可以按照实际情况自行删改
         try {
-          // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+          // 判断登录用户的权限
           const { roles } = await store.dispatch('user/getInfo')
 
-          // generate accessible routes map based on roles
+          // 获取该用户可以访问的路由列表
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          console.log(accessRoutes)
 
-          // dynamically add accessible routes
+          // 动态添加路由，用于设置权限，方法是router自带的，accessRoutes必须符合路由的规则
           router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
