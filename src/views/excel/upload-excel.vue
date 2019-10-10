@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     beforeUpload(file) {
+      // 判断文件是否小于一M，如果小于则允许上传
       const isLt1M = file.size / 1024 / 1024 < 1
 
       if (isLt1M) {
@@ -28,7 +29,7 @@ export default {
       }
 
       this.$message({
-        message: 'Please do not upload files larger than 1m in size.',
+        message: 'Please do not upload files larger than 1Mb in size.',
         type: 'warning'
       })
       return false

@@ -4,7 +4,7 @@
     <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
       Drop excel file here or
       <el-button :loading="loading" style="margin-left:16px;" size="mini" type="primary" @click="handleUpload">
-        Browse
+        导入
       </el-button>
     </div>
   </div>
@@ -63,6 +63,7 @@ export default {
     handleClick(e) {
       const files = e.target.files
       const rawFile = files[0] // only use files[0]
+
       if (!rawFile) return
       this.upload(rawFile)
     },
@@ -87,6 +88,8 @@ export default {
           const workbook = XLSX.read(data, { type: 'array' })
           const firstSheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[firstSheetName]
+          console.log(worksheet)
+
           const header = this.getHeaderRow(worksheet)
           const results = XLSX.utils.sheet_to_json(worksheet)
           this.generateData({ header, results })

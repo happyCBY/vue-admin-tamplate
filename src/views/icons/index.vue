@@ -1,5 +1,6 @@
 <template>
   <div class="icons-container">
+    <p>使用方法：移动到图标上面直接复制代码，黏贴到要使用的地方即可</p>
     <aside>
       <a href="https://panjiachen.github.io/vue-element-admin-site/guide/advanced/icon.html" target="_blank">Add and use
       </a>

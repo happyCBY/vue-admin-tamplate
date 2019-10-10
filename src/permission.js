@@ -39,7 +39,6 @@ router.beforeEach(async(to, from, next) => {
 
           // 获取该用户可以访问的路由列表
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-          console.log(accessRoutes)
 
           // 动态添加路由，用于设置权限，方法是router自带的，accessRoutes必须符合路由的规则
           router.addRoutes(accessRoutes)

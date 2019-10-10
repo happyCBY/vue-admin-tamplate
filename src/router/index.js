@@ -123,7 +123,37 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  {
+    path: '/explainFile',
+    component: Layout,
+    meta: { title: '说明文档', icon: 'icon' },
+    children: [
+      {
+        path: 'explainFile',
+        component: () => import('@/views/explainFile/index.vue'),
+        name: 'explainFile',
+        meta: { title: '使用说明', icon: 'icon', noCache: true }
+      },
+      {
+        path: 'exportExcel',
+        component: () => import('@/views/explainFile/exportExcel.vue'),
+        name: 'exportExcel',
+        meta: { title: '导出表格', icon: 'icon', noCache: true }
+      },
+      {
+        path: 'importExcel',
+        component: () => import('@/views/explainFile/importExcel.vue'),
+        name: 'importExcel',
+        meta: { title: '导入表格', icon: 'icon', noCache: true }
+      },
+      {
+        path: 'fwb',
+        component: () => import('@/views/explainFile/fwb.vue'),
+        name: 'fwb',
+        meta: { title: 'tinymce富文本编辑器', icon: 'icon', noCache: true }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
