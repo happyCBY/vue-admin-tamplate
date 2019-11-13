@@ -41,6 +41,7 @@ const state = {
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
+    // 将分支路由添加到主路由
     state.routes = constantRoutes.concat(routes)
   }
 }

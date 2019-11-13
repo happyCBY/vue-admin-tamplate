@@ -3,7 +3,8 @@ import { Message } from 'element-ui'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: '',
+  // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -29,7 +30,14 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    console.log('err' + error) // for debug
+    if (error.response.data.message === '100001') {
+      Message({
+        message: '登录信息已过期',
+        type: 'error'
+      })
+      window.location.href = '/#/login'
+      return
+    }
     Message({
       message: error.message,
       type: 'error',

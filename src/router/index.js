@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import user from './modules/user'
 
 /* Router Modules */
 
@@ -73,7 +73,9 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
+
 export const asyncRoutes = [
+  ...user,
   {
     path: '/icon',
     component: Layout,
@@ -154,6 +156,7 @@ export const asyncRoutes = [
       }
     ]
   },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -167,9 +170,10 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter(params) {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
+  router.addRoutes(params)
 }
 
 export default router

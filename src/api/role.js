@@ -2,21 +2,21 @@ import request from '@/utils/request'
 
 export function getRoutes() {
   return request({
-    url: '/routes',
+    url: '/mock/routes',
     method: 'get'
   })
 }
 
 export function getRoles() {
   return request({
-    url: '/roles',
+    url: '/mock/roles',
     method: 'get'
   })
 }
 
 export function addRole(data) {
   return request({
-    url: '/role',
+    url: '/mock/role',
     method: 'post',
     data
   })
@@ -24,7 +24,7 @@ export function addRole(data) {
 
 export function updateRole(id, data) {
   return request({
-    url: `/role/${id}`,
+    url: `/mock/role/${id}`,
     method: 'put',
     data
   })
@@ -32,7 +32,7 @@ export function updateRole(id, data) {
 
 export function deleteRole(id) {
   return request({
-    url: `/role/${id}`,
+    url: `/mock/role/${id}`,
     method: 'delete'
   })
 }
