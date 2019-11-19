@@ -5,6 +5,11 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import user from './modules/user'
+import news from './modules/news'
+import exchange from './modules/exchange'
+import system from './modules/system'
+import administrators from './modules/administrators'
+import rich from './modules/rich'
 
 /* Router Modules */
 
@@ -76,6 +81,11 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   ...user,
+  ...news,
+  ...exchange,
+  ...system,
+  ...administrators,
+  ...rich,
   {
     path: '/icon',
     component: Layout,

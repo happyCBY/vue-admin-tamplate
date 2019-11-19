@@ -48,12 +48,12 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-const errorHandler = (error, vm) => {
-  console.error('抛出全局异常')
-  console.error(vm.message)
-  console.error(error.message)
-}
-Vue.config.errorHandler = errorHandler
+// const errorHandler = (error, vm) => {
+//   console.error('抛出全局异常')
+//   console.error(vm.message)
+//   console.error(error.message)
+// }
+// Vue.config.errorHandler = errorHandler
 
 Vue.config.productionTip = false
 

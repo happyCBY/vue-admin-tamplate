@@ -30,7 +30,7 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    if (error.response.data.message === '100001') {
+    if (error.response && error.response.data && error.response.data.message === '100001') {
       Message({
         message: '登录信息已过期',
         type: 'error'

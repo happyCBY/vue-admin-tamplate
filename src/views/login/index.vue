@@ -79,6 +79,7 @@ export default {
       } else {
         callback()
       }
+      callback()
     }
     return {
       loginForm: {
@@ -153,6 +154,8 @@ export default {
           var dataMsg = await window.common.login(this.loginForm)
           if (dataMsg.code === 1) {
             this.$router.push('/')
+          } else {
+            this.$message.error(dataMsg.msg)
           }
           console.log(dataMsg)
         }

@@ -6,15 +6,16 @@ const newsRouter = [{
   children: [
     {
       path: 'manager',
-      component: () => import('@/views/user/manager'),
-      name: 'manager',
-      meta: { title: '会员信息', icon: 'icon', noCache: true }
+      component: () => import('@/views/news/manager'),
+      name: 'managerNew',
+      meta: { title: '通告列表', icon: 'icon', noCache: true }
     },
     {
-      path: 'userSearch',
-      component: () => import('@/views/user/userSearch'),
-      name: 'userSearch',
-      meta: { title: '推荐搜索', icon: 'icon', noCache: true }
+      path: 'managerEdit',
+      component: () => import('@/views/news/managerEdit'),
+      name: 'managerEdit',
+      meta: { title: '通告编辑', icon: 'icon', noCache: true },
+      hidden: true
     }
   ]
 }]

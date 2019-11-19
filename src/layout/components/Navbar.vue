@@ -76,10 +76,13 @@ export default {
     },
     async logout() {
       // await this.$store.dispatch('user/logout')
-      this.$store.state.user.flag = true
+
       var dataMsg = await window.common.loginOut()
       if (dataMsg.code === 1) {
+        this.$store.state.permission.flag = true
+
         this.$router.push(`/login`)
+        location.reload()
       } else {
         this.$message.error(dataMsg.msg)
       }
