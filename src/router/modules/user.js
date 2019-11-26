@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 const userRouter = [{
   path: '/user',
+  name: 'user',
   component: Layout,
   meta: { title: '会员管理', icon: 'icon' },
   children: [

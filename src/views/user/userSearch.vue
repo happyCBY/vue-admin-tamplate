@@ -34,8 +34,6 @@ export default {
   },
   methods: {
     mobileChange() {
-      console.log(1)
-
       this.show = false
     },
     reset() {
@@ -58,12 +56,21 @@ export default {
         })
       }
       if (dataMsg.code === 1) {
-        var data = dataMsg.data.map(item => {
-          return {
-            favorUserId: item.userId,
-            label: this.concatenateString(item)
-          }
-        })
+        var data = []
+        if (dataMsg.data.map) {
+          data = dataMsg.data.map(item => {
+            return {
+              favorUserId: item.userId,
+              label: this.concatenateString(item)
+            }
+          })
+        } else {
+          data.push({
+            favorUserId: dataMsg.data.userId,
+            label: this.concatenateString(dataMsg.data)
+          })
+        }
+
         resolve(data)
       } else {
         resolve([])

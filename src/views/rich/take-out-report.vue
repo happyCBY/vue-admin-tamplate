@@ -11,7 +11,7 @@
           />
         </el-select>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="4" class="mgL10">
         <el-select v-model="form.TraState" placeholder="请选择状态">
           <el-option
             v-for="item in statusList"
@@ -21,7 +21,7 @@
           />
         </el-select>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="4" class="mgL10">
         <el-input v-model="form.mobile" placeholder="请输入账号" />
       </el-col>
       <el-button type="primary" icon="el-icon-search" class="mgL10" @click="search">搜索</el-button>
@@ -130,6 +130,7 @@ export default {
   },
   methods: {
     search() {
+      this.page = 1
       this.getTakeOutReport()
     },
     // 导出表格
@@ -210,6 +211,9 @@ export default {
       if (dataMsg.code === 1) {
         this.takeOutReportData = dataMsg.data.records
         this.total = dataMsg.data.total
+      } else {
+        this.takeOutReportData = []
+        this.total = 0
       }
     }
   }

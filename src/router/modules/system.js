@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 const newsRouter = [{
   path: '/system',
+  name: 'system',
   component: Layout,
   meta: { title: '系统设置', icon: 'icon' },
   children: [
@@ -29,9 +30,21 @@ const newsRouter = [{
       meta: { title: '闪兑设置', icon: 'icon', noCache: true }
     },
     {
-      path: 'user',
+      path: 'setEdition',
+      component: () => import('@/views/system/setEdition'),
+      name: 'setEdition',
+      meta: { title: '设置版本号', icon: 'icon', noCache: true }
+    },
+    {
+      path: 'setPower',
+      component: () => import('@/views/system/setPower'),
+      name: 'setPower',
+      meta: { title: '设置权限', icon: 'icon', noCache: true }
+    },
+    {
+      path: 'managerUser',
       component: () => import('@/views/system/user'),
-      name: 'user',
+      name: 'managerUser',
       meta: { title: '后台用户管理', icon: 'icon', noCache: true }
     }
 

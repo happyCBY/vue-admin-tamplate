@@ -63,6 +63,7 @@ export default {
     }
   },
   created() {
+    this.page = 1
     this.getTransaction()
   },
   methods: {

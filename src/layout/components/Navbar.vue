@@ -10,7 +10,7 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
+      <template v-if="device !== 'mobile'">
         <search id="header-search" class="right-menu-item" />
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -57,7 +57,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-
+import { removeToken } from '@/utils/auth'
 export default {
   components: {
     Breadcrumb,
@@ -79,8 +79,10 @@ export default {
 
       var dataMsg = await window.common.loginOut()
       if (dataMsg.code === 1) {
-        this.$store.state.permission.flag = true
-
+        this.$store.state.user.flag = true
+        removeToken()
+        window.localStorage.removeItem('roles')
+        // this.$store.commit('settings/STOP_TIMER')
         this.$router.push(`/login`)
         location.reload()
       } else {

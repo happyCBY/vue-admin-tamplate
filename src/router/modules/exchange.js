@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 const newsRouter = [{
   path: '/exchange',
+  name: 'exchange',
   component: Layout,
   meta: { title: '交易管理', icon: 'icon' },
   children: [

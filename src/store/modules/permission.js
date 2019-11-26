@@ -6,11 +6,16 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param route
  */
 function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
+  if (route.name) {
+    return roles.some(role => route.name === role)
   } else {
     return true
   }
+  // if (route.meta && route.meta.roles) {
+  //   return roles.some(role => route.meta.roles.includes(role))
+  // } else {
+  //   return true
+  // }
 }
 
 /**
@@ -36,16 +41,12 @@ export function filterAsyncRoutes(routes, roles) {
 
 const state = {
   routes: [],
-  addRoutes: [],
-  flag: true
+  addRoutes: []
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    console.log(state)
     state.addRoutes = routes
-    // console.log(routes)
-    // console.log(constantRoutes)
     // 将分支路由添加到主路由
     state.routes = constantRoutes.concat(routes)
   }
@@ -53,24 +54,20 @@ const mutations = {
 
 const actions = {
   generateRoutes(store, roles) {
-    if (store.state.flag) {
-      return new Promise(resolve => {
-        let accessedRoutes
-        // 如果是admin则可以查看全部信息
-        if (roles.includes('admin')) {
-          accessedRoutes = asyncRoutes || []
-        } else {
-          // 获得符合该用户身份的路由
-          accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-        }
-        // 将该路由添加到主路由上
-        store.commit('SET_ROUTES', accessedRoutes)
-        store.state.flag = false
-        resolve(accessedRoutes)
-      })
-    } else {
-      return []
-    }
+    return new Promise(resolve => {
+      let accessedRoutes
+      // 如果是admin则可以查看全部信息
+      if (roles.includes('admin')) {
+        accessedRoutes = asyncRoutes || []
+      } else {
+        // 获得符合该用户身份的路由
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      }
+      // 将该路由添加到主路由上
+      store.commit('SET_ROUTES', accessedRoutes)
+      store.state.flag = false
+      resolve(accessedRoutes)
+    })
   }
 }
 

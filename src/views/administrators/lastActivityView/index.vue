@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card>
       <el-table :data="lastActivityViewData" border style="width: 100%">
-        <el-table-column prop="user_id" label="用户id" />
+        <el-table-column prop="userId" label="用户id" />
         <el-table-column prop="username" label="用户昵称" />
         <el-table-column prop="mobile" label="手机号" />
         <el-table-column prop="date" label="类型">
@@ -12,7 +12,7 @@
             <span v-else>复投用户矿机（四级矿机）</span>
           </template>
         </el-table-column>
-        <el-table-column prop="create_time" label="时间" />
+        <el-table-column prop="createTime" label="时间" />
       </el-table>
       <el-pagination
         :current-page="pageIndex"
@@ -50,16 +50,16 @@ export default {
       console.log(recode)
 
       this.count = recode.data.count
-      if (recode.data.code === 200) {
-        recode.data.data.pageData.records.forEach(item => {
-          item.create_time = window.parseTime(item.create_time)
-        })
-        this.total = recode.data.data.pageData.total
-        this.pageIndex = recode.data.data.pageData.current
-        this.pageSize = recode.data.data.pageData.size
-        this.lastActivityViewData = recode.data.data.pageData.records
+      if (recode.code === 1) {
+        // recode.data.data.pageData.records.forEach(item => {
+        //   item.create_time = window.parseTime(item.create_time)
+        // })
+        this.total = recode.data.total
+        this.pageIndex = recode.data.pages
+        this.pageSize = recode.data.size
+        this.lastActivityViewData = recode.data.records
       } else {
-        this.$message.error(recode.data.msg)
+        this.$message.error(recode.msg)
       }
 
       //   this.lastActivityViewData = recode

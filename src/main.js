@@ -35,10 +35,12 @@ import * as filters from './filters' // global filters
 // /////////////////
 import common from '@/assets/js/common.js'
 import parseTime from '@/utils/parseTime'
+import toolApi from '@/utils/toolApi'
 import oss from 'ali-oss'
 window.oss = oss
 window.common = common
 window.parseTime = parseTime
+window.toolApi = toolApi
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })

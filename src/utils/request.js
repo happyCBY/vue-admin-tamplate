@@ -1,6 +1,7 @@
 import axios from 'axios'
+// import store from '@/store'
 import { Message } from 'element-ui'
-
+import { getToken, removeToken } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
   baseURL: '',
@@ -12,6 +13,7 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    config.headers['myToken'] = getToken()
     return config
   },
   error => {
@@ -30,12 +32,38 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    if (error.response && error.response.data && error.response.data.message === '100001') {
-      Message({
-        message: '登录信息已过期',
-        type: 'error'
-      })
-      window.location.href = '/#/login'
+    console.log(error.response.data)
+
+    if (error.response && error.response.data && error.response.data.message) {
+      if (error.response.data.message === '100001') {
+        Message({
+          message: '用户未登录',
+          type: 'error'
+        })
+        removeToken()
+        window.location.href = '/#/login'
+      } else if (error.response.data.message === '100005') {
+        Message({
+          message: '登录信息过期',
+          type: 'error'
+        })
+        removeToken()
+        window.location.href = '/#/login'
+      } else if (error.response.data.message === '100006') {
+        Message({
+          message: '登录信息失效或在其他地方登录',
+          type: 'error'
+        })
+        removeToken()
+        window.location.href = '/#/login'
+      } else if (error.response.data.message === '100007') {
+        Message({
+          message: '非法登陆',
+          type: 'error'
+        })
+        removeToken()
+        window.location.href = '/#/login'
+      }
       return
     }
     Message({

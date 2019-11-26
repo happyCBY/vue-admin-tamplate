@@ -31,24 +31,24 @@
               scope="scope"
             >{{ scope.row.communityLevel!==0?'VIP'+scope.row.communityLevel:'' }}</template>
           </el-table-column>
-          <el-table-column prop="userName" label="登录冻结">
+          <el-table-column label="登录冻结">
             <template scope="scope">
-              <el-switch v-model="scope.row.frozenState" />
+              <el-switch v-model="scope.row.frozenState" @change="changeSwitch(scope.row)" />
             </template>
           </el-table-column>
-          <el-table-column prop="userName" label="转账冻结">
+          <el-table-column label="转账冻结">
             <template scope="scope">
-              <el-switch v-model="scope.row.transferFrozenState" />
+              <el-switch v-model="scope.row.transferFrozenState" @change="changeSwitch(scope.row)" />
             </template>
           </el-table-column>
-          <el-table-column prop="userName" label="c2c冻结">
+          <el-table-column label="c2c冻结">
             <template scope="scope">
-              <el-switch v-model="scope.row.c2cFrozenState" />
+              <el-switch v-model="scope.row.c2cFrozenState" @change="changeSwitch(scope.row)" />
             </template>
           </el-table-column>
-          <el-table-column prop="userName" label="闪兑冻结">
+          <el-table-column label="闪兑冻结">
             <template scope="scope">
-              <el-switch v-model="scope.row.changeFrozenState" />
+              <el-switch v-model="scope.row.changeFrozenState" @change="changeSwitch(scope.row)" />
             </template>
           </el-table-column>
         </el-table>
@@ -94,13 +94,13 @@ export default {
         favorKey: this.form.favorKey
       })
       if (dataMsg.code === 1) {
-        this.userList = dataMsg.data.pageUser.records
-        this.userList.forEach(item => {
+        dataMsg.data.pageUser.records.forEach(item => {
           item.frozenState = item.frozenState === 1
           item.transferFrozenState = item.transferFrozenState === 1
           item.changeFrozenState = item.changeFrozenState === 1
           item.c2cFrozenState = item.c2cFrozenState === 1
         })
+        this.userList = dataMsg.data.pageUser.records
         this.total = dataMsg.data.pageUser.total
       }
     },
@@ -113,7 +113,32 @@ export default {
       this.getUserList()
     },
     search() {
+      this.page = 1
       this.getUserList()
+    },
+    // switch改变时触发
+    async changeSwitch(data) {
+      // 重新赋值，不改变原来地址
+      var obj = {}
+      window.toolApi.copy(data, obj)
+      var a1 = ''
+      var a2 = ''
+      var a3 = ''
+      var a4 = ''
+      a1 = Number(data.frozenState)
+      a2 = Number(data.transferFrozenState)
+      a3 = Number(data.c2cFrozenState)
+      a4 = Number(data.changeFrozenState)
+      obj.frozenState = a1
+      obj.transferFrozenState = a2
+      obj.c2cFrozenState = a3
+      obj.changeFrozenState = a4
+      var dataMsg = await window.common.upTuUser(obj)
+      if (dataMsg.code === 1) {
+        this.getUserList()
+      } else {
+        this.$message.error(dataMsg.msg)
+      }
     }
   }
 }

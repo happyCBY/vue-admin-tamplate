@@ -88,13 +88,15 @@ export const asyncRoutes = [
   ...rich,
   {
     path: '/icon',
+    name: 'icon',
     component: Layout,
+    meta: { title: 'icons', icon: 'icon', noCache: true },
     children: [
       {
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: { title: '图标库', icon: 'icon', noCache: true }
       }
     ]
   },
@@ -137,6 +139,7 @@ export const asyncRoutes = [
   },
   {
     path: '/explainFile',
+    name: 'explainFile',
     component: Layout,
     meta: { title: '说明文档', icon: 'icon' },
     children: [

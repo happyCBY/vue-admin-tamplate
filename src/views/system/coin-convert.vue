@@ -37,10 +37,16 @@
           <el-form-item label="手续费">
             <el-input v-model="form.symbolRate" placeholder="请输入小数" />
           </el-form-item>
+          <el-form-item label="闪兑上限">
+            <el-input v-model="form.orderMaxCount" placeholder="请输入数字" />
+          </el-form-item>
+          <el-form-item label="闪兑下限">
+            <el-input v-model="form.orderMinCount" placeholder="请输入数字" />
+          </el-form-item>
           <el-form-item label="状态">
             <el-select v-model="form.status" style="float: left; margin-left: 0" placeholder="选择状态">
-              <el-option label="可用" value="0" />
-              <el-option label="不可用" value="1" />
+              <el-option label="可用" :value="0" />
+              <el-option label="不可用" :value="1" />
             </el-select>
           </el-form-item>
         </el-form>
@@ -64,8 +70,12 @@ export default {
         symbolFrom: '',
         symbolTo: '',
         symbolRate: '',
-        status: '0',
-        id: ''
+        status: '',
+        id: '',
+        // isApiChain: '',
+        orderMaxCount: '',
+        orderMinCount: ''
+        // recTime: ''
       }
     }
   },
@@ -81,11 +91,24 @@ export default {
         this.form.symbolTo = data.symbolTo
         this.form.symbolRate = data.symbolRate
         this.form.status = data.status
+        this.form.isApiChain = data.isApiChain
+        this.form.orderMaxCount = data.orderMaxCount
+        this.form.orderMinCount = data.orderMinCount
+        this.form.recTime = data.recTime
       }
+
       this.dialogVisible = true
     },
     // 确认添加修改
     async sureSave(data) {
+      if (
+        isNaN(Number(this.form.orderMaxCount)) ||
+        isNaN(Number(this.form.orderMinCount)) ||
+        isNaN(Number(this.form.symbolRate))
+      ) {
+        this.$message.error('手续费，闪兑上限，闪兑下限必须为数字')
+        return
+      }
       var dataMsg
       if (data) {
         dataMsg = await window.common.coinConvert(this.form)
@@ -93,6 +116,8 @@ export default {
           this.$message.success('操作成功')
           this.getCoinConvert()
           this.dialogVisible = false
+        } else {
+          this.$message.error(dataMsg.msg)
         }
       } else {
         dataMsg = await window.common.coinConvert(this.form)
@@ -100,6 +125,8 @@ export default {
           this.$message.success('操作成功')
           this.getCoinConvert()
           this.dialogVisible = false
+        } else {
+          this.$message.error(dataMsg.msg)
         }
       }
 
@@ -108,12 +135,12 @@ export default {
     // 每页显示条数改变
     handleSizeChange(size) {
       this.size = size
-      this.getNewsList()
+      this.getCoinConvert()
     },
     // 页数改变
     handleCurrentChange(page) {
       this.page = page
-      this.getNewsList()
+      this.getCoinConvert()
     },
     async getCoinConvert() {
       var dataMsg = await window.common.getCoinConvert({
@@ -122,6 +149,7 @@ export default {
       })
       if (dataMsg.code === 1) {
         this.CoinConvertList = dataMsg.data.records
+
         this.total = dataMsg.data.total
       } else {
         this.$message.error('获取列表失败')

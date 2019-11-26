@@ -8,7 +8,8 @@ const state = {
   showSettings: showSettings,
   tagsView: tagsView,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  timer: null
 }
 
 const mutations = {
@@ -16,6 +17,19 @@ const mutations = {
     if (state.hasOwnProperty(key)) {
       state[key] = value
     }
+  },
+  // 开启定时器
+  SET_TIMER(state) {
+    state.timer = setInterval(() => {
+      window.common.getRecommend({
+        page: 1,
+        size: 10
+      })
+    }, 10000)
+  },
+  // 关闭定时器
+  STOP_TIMER(state) {
+    clearInterval(state.timer)
   }
 }
 

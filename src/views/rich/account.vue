@@ -74,6 +74,7 @@ export default {
       })
     },
     search() {
+      this.page = 1
       this.getAccount()
     },
     handleSizeChange(size) {
@@ -94,7 +95,7 @@ export default {
         this.walletList = dataMsg.data.records
         this.total = dataMsg.data.total
       } else {
-        this.$message.error('获取列表失败')
+        this.$message.error(dataMsg.msg)
       }
     }
   }

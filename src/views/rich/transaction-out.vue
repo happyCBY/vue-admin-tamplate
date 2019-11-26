@@ -120,6 +120,7 @@ export default {
       })
     },
     search() {
+      this.page = 1
       this.getTransactionOut()
     },
     async getTransactionOut() {
