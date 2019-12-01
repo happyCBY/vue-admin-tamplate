@@ -30,6 +30,7 @@ router.beforeEach(async(to, from, next) => {
     if (getToken()) {
       NProgress.done()
       next()
+      console.log(store.state.user.flag)
       if (store.state.user.flag) {
         const accessRoutes = await store.dispatch('permission/generateRoutes', JSON.parse(window.localStorage.getItem('roles')) || [])
         console.log(accessRoutes)
